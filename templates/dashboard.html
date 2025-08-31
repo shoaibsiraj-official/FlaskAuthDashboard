@@ -1,0 +1,132 @@
+{% extends 'app.html' %}
+{% block content %}
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(-45deg, #43cea2, #185a9d, #ff7e5f, #feb47b);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+  }
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 25px;
+    animation: fadeInDown 1s ease forwards;
+  }
+
+  @keyframes fadeInDown {
+    0% { transform: translateY(-30px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #202020;
+    margin-bottom: 20px;
+    animation: fadeIn 1.2s ease forwards;
+    opacity: 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+    color: #020202;
+    font-size: 1rem;
+    animation: fadeIn 1.4s ease forwards;
+    opacity: 0;
+  }
+
+  li {
+    margin-bottom: 10px;
+    color: black;
+  }
+
+  .btn-dark {
+    background-color: #6a11cb;
+    background-image: linear-gradient(to right, #0026ff);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 25px;
+    font-weight: bold;
+    color: #fff;
+    font-size: 1rem;
+    transition: 0.3s transform, 0.3s box-shadow;
+    text-decoration: none;
+    animation: fadeIn 1.6s ease forwards;
+    opacity: 0;
+  }
+
+  .btn-dark:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  /* Floating circles animation */
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    animation: float 10s linear infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { transform: translateY(-100vh) translateX(50px) rotate(360deg); opacity: 0; }
+  }
+</style>
+
+<div class="container">
+  <h2>🎉 Congratulations! 🎉</h2>
+
+  {% if user %}
+      <p>Welcome back, here is your account information:</p>
+      <ul>
+          <li><strong>Name:</strong> {{ user[1] }}</li>
+          <li><strong>Email:</strong> {{ user[2] }}</li>
+      </ul>
+      <a href="/logout" class="btn btn-dark">Logout</a>
+  {% else %}
+      <p>No user information found.</p>
+  {% endif %}
+
+  <!-- Floating circles -->
+  <div class="circle" style="width: 40px; height: 40px; left: 10%; animation-duration: 12s;"></div>
+  <div class="circle" style="width: 30px; height: 30px; left: 50%; animation-duration: 15s;"></div>
+  <div class="circle" style="width: 50px; height: 50px; left: 80%; animation-duration: 18s;"></div>
+</div>
+
+{% endblock %}

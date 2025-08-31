@@ -1,0 +1,200 @@
+{% extends 'app.html' %}
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #283e8e;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Full screen bubble wrapper */
+.bubbles-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    bottom: -100px;
+    opacity: 0.5;
+    animation: float linear infinite;
+}
+
+/* Float animation */
+@keyframes float {
+    0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0.3; }
+    50% { opacity: 0.6; }
+    100% { transform: translateY(-120vh) scale(1) rotate(360deg); opacity: 0; }
+}
+
+/* Different shapes */
+.shape.circle { border-radius: 50%; }
+.shape.ellipse { border-radius: 50% / 30%; }
+.shape.square { border-radius: 10%; }
+.shape.triangle { 
+    width: 0; 
+    height: 0; 
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 35px solid #ff6b6b; 
+    background: none;
+    border-radius: 0;
+}
+
+/* Individual shape properties */
+.shape:nth-child(1) { width:40px; height:40px; left:5%; background:#ff6b6b; animation-duration:6s; }
+.shape:nth-child(2) { width:50px; height:30px; left:15%; background:#feca57; animation-duration:7s; border-radius:50% / 25%; }
+.shape:nth-child(3) { width:35px; height:35px; left:25%; background:#48dbfb; animation-duration:6.5s; }
+.shape:nth-child(4) { width:30px; height:30px; left:35%; background:#1dd1a1; animation-duration:8s; border-radius:10%; }
+.shape:nth-child(5) { width:45px; height:20px; left:45%; background:#ff9ff3; animation-duration:7.5s; border-radius:50% / 30%; }
+.shape:nth-child(6) { width:40px; height:40px; left:55%; background:#54a0ff; animation-duration:6.8s; }
+.shape:nth-child(7) { width:35px; height:35px; left:65%; background:#f368e0; animation-duration:8.2s; border-radius:10%; }
+.shape:nth-child(8) { width:30px; height:50px; left:75%; background:#00d2d3; animation-duration:7.3s; border-radius:50% / 25%; }
+.shape:nth-child(9) { width:50px; height:50px; left:85%; background:#ff9f43; animation-duration:6.6s; }
+.shape:nth-child(10){ width:0; height:0; left:95%; animation-duration:7s; }
+
+/* Container */
+.container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    max-width: 450px;
+    width: 100%;
+    z-index: 1;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: bold;
+    color: #333;
+}
+
+label {
+    font-weight: 600;
+    color: #222;
+}
+
+.form-control {
+    border-radius: 8px; /* Thoda zyada rounded */
+    border: 1px solid #919191; /* Dark border */
+    padding: 10px;
+}
+
+.btn-dark {
+    background-color: #6a11cb;
+    background-image: linear-gradient(to right, #0026ff);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-dark:hover { opacity: 0.9; }
+
+.btn-secondary {
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.input-group-text i {
+    color: #2575fc; /* Blue color for icons */
+    font-size: 1rem;
+}
+.text-danger li { font-size: 0.9rem; }
+.input-group-text { background: #ddd; border-radius: 5px 0 0 5px; }
+</style>
+
+<!-- Animated shapes -->
+<div class="bubbles-wrapper">
+    <div class="shape circle"></div>
+    <div class="shape ellipse"></div>
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape ellipse"></div>
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape ellipse"></div>
+    <div class="shape circle"></div>
+    <div class="shape triangle"></div>
+</div>
+
+<div class="container">
+    <h2>Register Form</h2>
+    <form action="/register" method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            <label for="name">{{ form.name.label.text }}</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                {{ form.name(id="name", class="form-control") }}
+            </div>
+            {% if form.name.errors %}
+                <ul class="text-danger">
+                    {% for error in form.name.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="email">{{ form.email.label.text }}</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                {{ form.email(id="email", class="form-control") }}
+            </div>
+            {% if form.email.errors %}
+                <ul class="text-danger">
+                    {% for error in form.email.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="password">{{ form.password.label.text }}</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                {{ form.password(id="password", class="form-control") }}
+            </div>
+            {% if form.password.errors %}
+                <ul class="text-danger">
+                    {% for error in form.password.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        {{ form.submit(class="btn btn-dark") }}
+        <a href="/login" class="btn btn-secondary">Login page</a>
+    </form>
+</div>
+
+{% endblock %}
