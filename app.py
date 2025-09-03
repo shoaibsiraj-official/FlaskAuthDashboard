@@ -4,17 +4,21 @@ from wtforms import StringField,PasswordField,SubmitField
 from wtforms.validators import DataRequired, Email, ValidationError
 import bcrypt
 from flask_mysqldb import MySQL
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
 # MySQL Configuration
 import os
 
+load_dotenv()  # .env file read karega
+
 app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST')
 app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER')
 app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
 app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB')
 app.secret_key = os.environ.get('SECRET_KEY')
+
 
 
 mysql = MySQL(app)
