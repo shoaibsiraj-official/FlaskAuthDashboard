@@ -8,11 +8,14 @@ from flask_mysqldb import MySQL
 app = Flask(__name__)
 
 # MySQL Configuration
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'mydatabase'
-app.secret_key = 'your_secret_key_here'
+import os
+
+app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST')
+app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
+app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB')
+app.secret_key = os.environ.get('SECRET_KEY')
+
 
 mysql = MySQL(app)
 
@@ -101,9 +104,6 @@ def logout():
     session.pop('user_id', None)
     flash("You have been logged out successfully.")
     return redirect(url_for('login'))
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
